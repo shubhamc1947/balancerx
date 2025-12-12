@@ -6,10 +6,10 @@ import (
 	"sync"
 )
 
-// --- CONFIGURATION STRUCTS ---
 type BackendConfig struct {
-	URL    string `json:"url"`
-	Weight int    `json:"weight"`
+	URL        string `json:"url"`
+	Weight     int    `json:"weight"`
+	HealthPath string `json:"health_path"` // NEW
 }
 
 type Config struct {
@@ -19,14 +19,14 @@ type Config struct {
 	Backends            []BackendConfig `json:"backends"`
 }
 
-// --- BACKEND STRUCT ---
 type Backend struct {
 	URL          *url.URL
 	Alive        bool
 	mux          sync.RWMutex
 	ReverseProxy *httputil.ReverseProxy
-	ActiveConn   int64 // For Least Connection
-	Weight       int   // For Weighted Round Robin
+	ActiveConn   int64
+	Weight       int
+	HealthPath   string // NEW: Store specific health path
 }
 
 func (b *Backend) SetAlive(alive bool) {
@@ -41,13 +41,9 @@ func (b *Backend) IsAlive() bool {
 	return b.Alive
 }
 
-// --- SERVER POOL ---
 type ServerPool struct {
 	backends []*Backend
-	current  uint64 // For Round Robin
+	mux      sync.RWMutex // NEW: Protects the slice during Add/Remove
+	current  uint64
 	strategy string
-}
-
-func (s *ServerPool) AddBackend(backend *Backend) {
-	s.backends = append(s.backends, backend)
 }

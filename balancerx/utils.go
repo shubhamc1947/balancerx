@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"net"
+	"net/http"
 	"net/url"
 	"os"
 	"time"
@@ -19,17 +19,25 @@ func loadConfig(file string) (*Config, error) {
 	return &config, err
 }
 
-func isBackendAlive(u *url.URL) bool {
+// NEW: Check Health via HTTP GET
+func isBackendAlive(u *url.URL, healthPath string) bool {
 	timeout := 2 * time.Second
-	conn, err := net.DialTimeout("tcp", u.Host, timeout)
+	client := http.Client{
+		Timeout: timeout,
+	}
+	// Construct full health URL (e.g., http://localhost:8081/health)
+	fullURL := u.String() + healthPath
+
+	resp, err := client.Get(fullURL)
 	if err != nil {
 		return false
 	}
-	_ = conn.Close()
-	return true
+	defer resp.Body.Close()
+
+	// Consider it healthy if status is 200 OK
+	return resp.StatusCode == http.StatusOK
 }
 
-// Retry Context Helpers
 const Retry int = 0
 
 func GetRetryFromContext(ctx context.Context) int {
