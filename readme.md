@@ -1,12 +1,6 @@
-Here is a **clean, production-ready, beautifully formatted `README.md`** for your BalancerX project.
+# **BalancerX**
 
-You can copy-paste it directly into `README.md` — it’s fully Markdown-optimized, includes code blocks, tables, and section spacing.
-
----
-
-# **BalancerX — High-Performance Layer 7 Load Balancer**
-
-> 🚀 *A lightweight, dynamic, and customizable Layer 7 Load Balancer built in Go (Golang) with multiple routing strategies, active health checks, real-time dashboard, and live backend management.*
+> 🚀 *A lightweight, dynamic, and customizable Load Balancer built in Go (Golang) with multiple routing strategies, active health checks, real-time dashboard, and live backend management.*
 
 ---
 
@@ -100,7 +94,7 @@ If a backend fails during a request:
 ## 🔧 **1. Installation**
 
 ```bash
-git clone https://github.com/yourusername/balancerx.git
+git clone https://github.com/shubhamc1947/balancerx.git
 cd balancerx
 ```
 
@@ -236,15 +230,3 @@ DELETE /api/backends
 # 📝 **License**
 
 This project is licensed under the **MIT License**.
-
----
-
-If you'd like, I can also generate:
-
-✅ Badges (Go version, CI, license, contributions)
-✅ ASCII logo for the top
-✅ GIF demo preview
-✅ Screenshots for the dashboard
-✅ A professional `README.md` banner
-
-Just tell me!
