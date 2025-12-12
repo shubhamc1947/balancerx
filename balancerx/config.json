@@ -1,9 +1,19 @@
 {
   "server_port": ":8000",
   "health_check_interval": "10s",
+  "lb_strategy": "weighted-round-robin",
   "backends": [
-    "http://localhost:8081",
-    "http://localhost:8082",
-    "http://localhost:8083"
+    {
+      "url": "http://localhost:8081",
+      "weight": 3
+    },
+    {
+      "url": "http://localhost:8082",
+      "weight": 1
+    },
+    {
+      "url": "http://localhost:8083",
+      "weight": 1
+    }
   ]
 }
